@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shiro-action-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shiro-action
+  template:
+    metadata:
+      labels:
+        app: shiro-action
+    spec:
+      tolerations:
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"
+      containers:
+        - name: shiro-action-container
+          image: openjdk:8-alpine
+          ports:
+            - containerPort: 8081
+          volumeMounts:
+            - name: data
+              mountPath: /home
+          command: ["/bin/sh","-ce","java -jar /home/shiro-action-0.6.jar.jar"]
+      volumes:
+        - name: data
+          hostPath:
+            path: ../../../../target
+

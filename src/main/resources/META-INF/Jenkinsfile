@@ -1,0 +1,17 @@
+pipeline {
+    stages {
+        stage('build') {
+            agent{
+                docker {image 'maven:3.3.3'}
+            }
+            sh 'mvn clean package'
+        }
+        stage('deployment') {
+           steps{
+              sh 'kubectl apply -f k8s/shiro-action-deployment.yml'
+           }
+        }
+
+    }
+
+}
