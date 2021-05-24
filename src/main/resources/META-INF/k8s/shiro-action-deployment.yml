@@ -30,7 +30,7 @@ spec:
           hostPath:
             path: /home/shiro-action/
 
----------------------------------
+---
 
 apiVersion: v1
 kind: Service
