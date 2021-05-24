@@ -27,8 +27,8 @@ public class CaptchaUtil {
         // 取颜色区间中较淡的部分
         g.setColor(getRandColor(200, 250));
         g.fillRect(0, 0, width, height);
-        g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-
+        //-g.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        g.setFont(new Font("Default", Font.PLAIN, 20));
         g.setColor(getRandColor(160,200));
         // 干扰线
         for (int i = 0; i < lineCount; ++i) {

@@ -1,6 +1,7 @@
 package im.zhaojun.common.interceptor;
 
 import im.zhaojun.common.util.IPUtils;
+import im.zhaojun.common.util.TimeUtils;
 import im.zhaojun.system.model.User;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.MDC;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
 
 /**
  * MDC 拦截器, 用于将当前操作人的用户名及 IP 添加到 MDC 中. 以在日志中进行显示.
@@ -24,6 +26,7 @@ public class LogMDCInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
         // 如已进行登录, 则获取当前登录者的用户名放入 MDC 中.
+//        TimeUtils.start();
         String username = "";
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         if (user != null) {
@@ -32,6 +35,7 @@ public class LogMDCInterceptor implements HandlerInterceptor {
 
         MDC.put(IP, IPUtils.getIpAddr());
         MDC.put(MDC_USERNAME, username);
+//        TimeUtils.timing("LogMDCInterceptor preHandle");
         return true;
     }
  
