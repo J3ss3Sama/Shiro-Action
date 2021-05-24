@@ -40,6 +40,8 @@ metadata:
     app: shiro-action
 spec:
   type: NodePort
+  externalIPs:
+    - 10.0.4.3
   ports:
     - port:  8081
       targetPort: 8081
