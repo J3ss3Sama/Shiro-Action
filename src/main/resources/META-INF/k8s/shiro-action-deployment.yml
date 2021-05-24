@@ -24,9 +24,9 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /home
-          command: ["/bin/sh","-ce","java -jar /home/shiro-action-0.6.jar.jar"]
+          command: ["/bin/sh","-ce","java -jar /home/shiro-action.jar"]
       volumes:
         - name: data
           hostPath:
-            path: ../../../../target
+            path: /home/shiro-action/shiro-action.jar
 

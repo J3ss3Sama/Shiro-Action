@@ -7,11 +7,13 @@ pipeline {
             }
             steps {
                 sh 'mvn clean package'
+                sh 'cp target/shiro-action-0.6.jar /home/shiro-action/shiro-action.jar'
             }
         }
         stage('deployment') {
            steps{
-              sh 'kubectl apply -f ${WORKSPACE}/src/main/resource/META-INF/k8s/shiro-action-deployment.yml'
+              sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml'
+
            }
         }
 
