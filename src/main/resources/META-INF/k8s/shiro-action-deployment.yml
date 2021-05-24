@@ -18,22 +18,17 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: shiro-action-container
-          image: openjdk:8-alpine
+          image: jesseho/openjdk:8-alpine
           ports:
             - containerPort: 8081
           volumeMounts:
             - name: data
               mountPath: /home
-            - name: font
-              mountPath: /usr/share/fonts
           command: ["/bin/sh","-ce","java -jar /home/shiro-action.jar"]
       volumes:
         - name: data
           hostPath:
             path: /home/shiro-action/
-        - name: font
-          hostPath:
-            path: /usr/share/fonts
 
 ---
 
