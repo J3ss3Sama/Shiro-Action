@@ -1,10 +1,10 @@
 pipeline {
-    agent any
+    agent{
+       docker {image 'maven:3.3.3'}
+       any
+    }
     stages {
         stage('build') {
-            agent{
-                docker {image 'maven:3.3.3'}
-            }
             steps {
                 sh 'mvn clean package'
                 sh 'cp target/shiro-action-0.6.jar /home/shiro-action/shiro-action.jar'
@@ -13,7 +13,6 @@ pipeline {
         stage('deployment') {
            steps{
               sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml'
-
            }
         }
 
