@@ -24,14 +24,14 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /home
-              name: font
+            - name: font
               mountPath: /usr/share/fonts
           command: ["/bin/sh","-ce","java -jar /home/shiro-action.jar"]
       volumes:
         - name: data
           hostPath:
             path: /home/shiro-action/
-          name: font
+        - name: font
           hostPath:
             path: /usr/share/fonts
 
