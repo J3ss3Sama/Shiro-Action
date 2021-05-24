@@ -11,7 +11,7 @@ pipeline {
         }
         stage('deployment') {
            steps{
-              sh 'kubectl apply -f k8s/shiro-action-deployment.yml'
+              sh 'kubectl apply -f ${WORKSPACE}/src/main/resource/META-INF/k8s/shiro-action-deployment.yml'
            }
         }
 
