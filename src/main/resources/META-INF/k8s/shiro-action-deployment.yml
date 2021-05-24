@@ -32,7 +32,8 @@ spec:
           hostPath:
             path: /home/shiro-action/
           name: font
-          mount: /usr/share/fonts
+          hostPath:
+            path: /usr/share/fonts
 
 ---
 
