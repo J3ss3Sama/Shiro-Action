@@ -4,7 +4,9 @@ pipeline {
             agent{
                 docker {image 'maven:3.3.3'}
             }
-            sh 'mvn clean package'
+            steps {
+                sh 'mvn clean package'
+            }
         }
         stage('deployment') {
            steps{
