@@ -15,7 +15,6 @@ pipeline {
         }
         stage('deployment') {
            steps{
-              sh 'kubectl rollout -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml'
               sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml'
            }
         }
