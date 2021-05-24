@@ -30,3 +30,19 @@ spec:
           hostPath:
             path: /home/shiro-action/
 
+---------------------------------
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: shiro-action-service
+  labels:
+    app: shiro-action
+spec:
+  type: NodePort
+  ports:
+    - port:  8081
+      targetPort: 8081
+      nodePort: 30010
+  selector:
+    app: shiro-action
