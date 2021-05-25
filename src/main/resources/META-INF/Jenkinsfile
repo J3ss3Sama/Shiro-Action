@@ -22,9 +22,11 @@ pipeline {
              script {
                 def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName}',returnStdout:true).trim()
                  if(container != ""){
+                   echo '进入强制更新'
                    sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName} --ignore-not-found=true'
                    sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
                  }else{
+                   echo '启动项目'
                    sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
                  }
              }
