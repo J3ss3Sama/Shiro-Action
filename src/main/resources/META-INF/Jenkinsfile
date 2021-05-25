@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
       appName="shiro-action"
-      deployFileName=appName+"-deployment.yml"
+      deployFileName="${appName}-deployment.yml"
     }
     stages {
         stage('build') {
@@ -18,12 +18,11 @@ pipeline {
             }
         }
         stage('deployment') {
-           enviroment{
 
-
+           script{
+             def container= sh 'kubectl get pods |awk {print\"$1\"} |grep ${appName}'
            }
            steps{
-              def container= sh 'kubectl get pods |awk {print\"$1\"} |grep ' + $appName
               if(container != ""){
                  sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml --ignore-not-found=true'
                  sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml'
