@@ -20,7 +20,7 @@ pipeline {
         stage('deployment') {
            steps {
              script {
-                #echo \"\"返回默认值
+                //echo \"\"返回默认值
                 def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName} || echo \"\" ',returnStdout:true).trim()
                  if(container != ""){
                    echo '进入强制更新'
