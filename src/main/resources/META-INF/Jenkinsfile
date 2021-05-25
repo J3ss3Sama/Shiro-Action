@@ -20,7 +20,8 @@ pipeline {
         stage('deployment') {
            steps {
              script {
-                def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName}',returnStdout:true).trim()
+                #echo \"\"返回默认值
+                def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName} || echo \"\" ',returnStdout:true).trim()
                  if(container != ""){
                    echo '进入强制更新'
                    sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName} --ignore-not-found=true'
