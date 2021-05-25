@@ -22,10 +22,10 @@ pipeline {
              script {
                 def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName}',returnStdout:true).trim()
                  if(container != ""){
-                   sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml --ignore-not-found=true'
-                   sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml'
+                   sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName} --ignore-not-found=true'
+                   sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
                  }else{
-                     sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/shiro-action-deployment.yml'
+                   sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
                  }
              }
            }
