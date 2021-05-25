@@ -3,6 +3,7 @@ pipeline {
     environment {
       appName="shiro-action"
       deployFileName="${appName}-deployment.yml"
+      //下次补充关闭项目 滚动更新 探针 制作docker项目镜像 以及 搭建镜像管理 gitlab helm等
     }
     stages {
         stage('build') {
