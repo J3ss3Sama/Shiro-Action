@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        any
-    }
+    agent any
     environment {
       appName="shiro-action"
       deployName="${appName}-deployment"
