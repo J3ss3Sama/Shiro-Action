@@ -28,7 +28,7 @@ pipeline {
                 //echo \"\"返回默认值
                 def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName} || echo \"\" ',returnStdout:true).trim()
                  if(container != ""){
-                     if(${params.ROLL_UPDATE}){
+                     if("${params.ROLL_UPDATE}"){
                         echo '进行滚动更新'
                         sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
                         sh 'kubectl rollout status deployment ${deployName}'
