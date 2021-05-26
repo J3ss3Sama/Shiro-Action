@@ -7,7 +7,7 @@ pipeline {
       //下次补充关闭项目 滚动更新 探针 制作docker项目镜像 以及 搭建镜像管理 gitlab helm等
     }
     parameters {
-       choice(name: 'UPGRADE_TYPE',choices: 'compulsion-update\nrolling-update', description: 'rolling-update：滚动升级；\n compulsion-update：强制升级；【慎用】')
+       choice(name: 'UPGRADE_TYPE',choices: '滚动升级\n强制升级', description: '')
     }
     stages {
         stage('build') {
@@ -29,12 +29,12 @@ pipeline {
                 def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName} || echo \"\" ',returnStdout:true).trim()
                  if(container != ""){
                      switch("${params.UPGRADE_TYPE}"){
-                        case "roll-update":
+                        case "滚动升级":
                           echo '进行滚动更新'
                           sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
                           sh 'kubectl rollout status deployment ${deployName}'
                           break
-                       case "compulsion-update":
+                       case "强制升级":
                           echo '进行强制更新'
                           sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName} --ignore-not-found=true'
                           sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
