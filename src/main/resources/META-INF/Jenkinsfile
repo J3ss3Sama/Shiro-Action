@@ -1,9 +1,15 @@
 pipeline {
-    agent any
+    agent {
+        any
+    }
     environment {
       appName="shiro-action"
-      deployFileName="${appName}-deployment.yml"
+      deployName="${appName}-deployment"
+      deployFileName="${deployName}.yml"
       //下次补充关闭项目 滚动更新 探针 制作docker项目镜像 以及 搭建镜像管理 gitlab helm等
+    }
+    parameters {
+       booleanParam(name: 'ROLL_UPDATE',defaultValue: false,description: "")
     }
     stages {
         stage('build') {
@@ -24,9 +30,15 @@ pipeline {
                 //echo \"\"返回默认值
                 def container = sh(script:'kubectl get pods |awk {print\"$1\"} |grep ${appName} || echo \"\" ',returnStdout:true).trim()
                  if(container != ""){
-                   echo '进入强制更新'
-                   sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName} --ignore-not-found=true'
-                   sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
+                     if(${params.ROLL_UPDATE}){
+                        echo '进行滚动更新'
+                        sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
+                        sh 'kubectl rollout status deployment ${deployName}'
+                     }else{
+                        echo '进行强制更新'
+                        sh 'kubectl delete -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName} --ignore-not-found=true'
+                        sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
+                     }
                  }else{
                    echo '启动项目'
                    sh 'kubectl apply -f ${WORKSPACE}/src/main/resources/META-INF/k8s/${deployFileName}'
